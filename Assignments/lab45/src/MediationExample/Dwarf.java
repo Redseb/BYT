@@ -1,3 +1,5 @@
+package MediationExample;
+
 public class Dwarf extends Mob{
 
     public Dwarf(String username, int x, int y, Mediator mediator) {

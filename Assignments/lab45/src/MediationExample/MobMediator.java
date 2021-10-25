@@ -1,3 +1,5 @@
+package MediationExample;
+
 import java.util.ArrayList;
 
 public class MobMediator implements Mediator{

@@ -1,3 +1,5 @@
+package MediationExample;
+
 public abstract class Mob {
     public String username;
     private int hp;
