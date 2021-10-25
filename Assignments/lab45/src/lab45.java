@@ -1,3 +1,7 @@
+import BuilderExample.AndroidPhoneBuilder;
+import BuilderExample.ApplePhoneBuilder;
+import BuilderExample.Director;
+import BuilderExample.Phone;
 import ChainOfResponsibilityExample.CapitalLetterChecker;
 import ChainOfResponsibilityExample.DigitChecker;
 import ChainOfResponsibilityExample.LengthChecker;
@@ -6,6 +10,7 @@ import MediationExample.Dwarf;
 import MediationExample.Goblin;
 import MediationExample.MobMediator;
 import MediationExample.Skeleton;
+import jdk.jshell.execution.DirectExecutionControl;
 
 public class lab45 {
     public static void main(String[] args) {
@@ -42,5 +47,16 @@ public class lab45 {
         mobMediator.printAllMobs();
 
         System.out.println("FINISH");
+
+        //Builder Method
+        Director director = new Director();
+        AndroidPhoneBuilder androidBuilder = new AndroidPhoneBuilder();
+        ApplePhoneBuilder appleBuilder = new ApplePhoneBuilder();
+
+        Phone androidCheapPhone = director.makeCheapPhone(androidBuilder);
+        Phone appleExpensivePhone = director.makeExpensivePhone(appleBuilder);
+
+        System.out.println(androidCheapPhone);
+        System.out.println(appleExpensivePhone);
     }
 }
