@@ -43,7 +43,7 @@ public class Bank {
 			throw new AccountExistsException();
 		}
 		else {
-			accountlist.get(accountid);
+			accountlist.put(accountid, new Account(accountid, this.currency)); //Not sure if accountid should be the name...
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class Bank {
 	 * @throws AccountDoesNotExistException If the account does not exist
 	 */
 	public void deposit(String accountid, Money money) throws AccountDoesNotExistException {
-		if (accountlist.containsKey(accountid)) {
+		if (!accountlist.containsKey(accountid)) {
 			throw new AccountDoesNotExistException();
 		}
 		else {
@@ -75,7 +75,7 @@ public class Bank {
 		}
 		else {
 			Account account = accountlist.get(accountid);
-			account.deposit(money);
+			account.withdraw(money);
 		}
 	}
 	
@@ -120,7 +120,7 @@ public class Bank {
 	 * @throws AccountDoesNotExistException If one of the accounts do not exist
 	 */
 	public void transfer(String fromaccount, String toaccount, Money amount) throws AccountDoesNotExistException {
-		transfer(fromaccount, this, fromaccount, amount);
+		transfer(fromaccount, this, toaccount, amount);
 	}
 
 	/**
@@ -133,9 +133,11 @@ public class Bank {
 	 * @param tobank Bank where receiving account resides
 	 * @param toaccount Id of receiving account
 	 */
-	public void addTimedPayment(String accountid, String payid, Integer interval, Integer next, Money amount, Bank tobank, String toaccount) {
-		Account account = accountlist.get(accountid);
-		account.addTimedPayment(payid, interval, next, amount, tobank, toaccount);
+	public void addTimedPayment(String accountid, String payid, Integer interval, Integer next, Money amount, Bank tobank, String toaccount) throws AccountDoesNotExistException {
+		if (!accountlist.containsKey(accountid)) {
+			throw new AccountDoesNotExistException();
+		}
+		accountlist.get(accountid).addTimedPayment(payid, interval, next, amount, tobank, toaccount);
 	}
 	
 	/**
@@ -143,9 +145,11 @@ public class Bank {
 	 * @param accountid Id of account to remove timed payment from
 	 * @param id Id of timed payment
 	 */
-	public void removeTimedPayment(String accountid, String id) {
-		Account account = accountlist.get(accountid);
-		account.removeTimedPayment(id);
+	public void removeTimedPayment(String accountid, String id) throws AccountDoesNotExistException {
+		if (!accountlist.containsKey(accountid)) {
+			throw new AccountDoesNotExistException();
+		}
+		accountlist.get(accountid).removeTimedPayment(id);
 	}
 	
 	/**
