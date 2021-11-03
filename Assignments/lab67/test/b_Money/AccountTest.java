@@ -16,6 +16,7 @@ public class AccountTest {
 		SEK = new Currency("SEK", 0.15);
 		SweBank = new Bank("SweBank", SEK);
 		SweBank.openAccount("Alice");
+		SweBank.openAccount("TestID");
 		testAccount = new Account("Hans", SEK);
 		testAccount.deposit(new Money(10000000, SEK));
 
@@ -23,22 +24,49 @@ public class AccountTest {
 	}
 	
 	@Test
-	public void testAddRemoveTimedPayment() {
-		fail("Write test case here");
+	public void testAddRemoveTimedPayment() throws AccountDoesNotExistException {
+		assertEquals(Integer.valueOf(10000000), testAccount.getBalance().getAmount());
+		assertEquals(Integer.valueOf(0), SweBank.getBalance("TestID"));
+		testAccount.addTimedPayment("payID1", 5, 5, new Money(100, SEK), SweBank, "TestID");
+		testAccount.removeTimedPayment( "payID1");
+		testAccount.tick();
+		testAccount.tick();
+		testAccount.tick();
+		testAccount.tick();
+		testAccount.tick();
+		testAccount.tick();
+		assertEquals(Integer.valueOf(10000000), testAccount.getBalance().getAmount());
+		assertEquals(Integer.valueOf(0), SweBank.getBalance("TestID"));
 	}
 	
 	@Test
 	public void testTimedPayment() throws AccountDoesNotExistException {
-		fail("Write test case here");
+		assertEquals(Integer.valueOf(10000000), testAccount.getBalance().getAmount());
+		assertEquals(Integer.valueOf(0), SweBank.getBalance("TestID"));
+		testAccount.addTimedPayment("payID1", 5, 5, new Money(100, SEK), SweBank, "TestID");
+		testAccount.tick();
+		testAccount.tick();
+		testAccount.tick();
+		testAccount.tick();
+		testAccount.tick();
+		testAccount.tick();
+		assertEquals(Integer.valueOf(9999900), testAccount.getBalance().getAmount());
+		assertEquals(Integer.valueOf(100), SweBank.getBalance("TestID"));
 	}
 
 	@Test
 	public void testAddWithdraw() {
-		fail("Write test case here");
+		assertEquals(Integer.valueOf(10000000), testAccount.getBalance().getAmount());
+		testAccount.deposit(new Money(10000000, SEK));
+		assertEquals(Integer.valueOf(20000000), testAccount.getBalance().getAmount());
+		testAccount.withdraw(new Money(10000000, SEK));
+		assertEquals(Integer.valueOf(10000000), testAccount.getBalance().getAmount());
 	}
 	
 	@Test
 	public void testGetBalance() {
-		fail("Write test case here");
+		assertEquals(Integer.valueOf(10000000), testAccount.getBalance().getAmount());
+		assertEquals(SEK, testAccount.getBalance().getCurrency());
+		//Not sure what else to test here...
 	}
 }
