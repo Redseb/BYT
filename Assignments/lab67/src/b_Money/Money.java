@@ -37,7 +37,8 @@ public class Money implements Comparable {
 	 *  @return String representing the amount of Money.
 	 */
 	public String toString() {
-		return "" + amount + " " + currency; //placeholder
+		double amountInString = (double) amount / 100;
+		return "" + amountInString+ " " + currency.getName();
 	}
 	
 	/**
@@ -45,7 +46,7 @@ public class Money implements Comparable {
 	 * @return The value of the Money in the "universal currency".
 	 */
 	public Integer universalValue() {
-		return currency.universalValue(amount); //placeholder
+		return currency.universalValue(amount);
 	}
 	
 	/**
@@ -54,7 +55,7 @@ public class Money implements Comparable {
 	 * @return A Boolean indicating if the two monies are equal.
 	 */
 	public Boolean equals(Money other) {
-		return other.universalValue().equals(this.universalValue()); //placeholder
+		return other.universalValue().equals(this.universalValue());
 	}
 	
 	/**
@@ -64,7 +65,8 @@ public class Money implements Comparable {
 	 * (Remember to convert the other Money before adding the amounts)
 	 */
 	public Money add(Money other) {
-		return new Money(amount, currency); //placeholder
+		int addedAmount = this.amount+currency.valueInThisCurrency(other.amount, other.currency);
+		return new Money(addedAmount, currency);
 	}
 
 	/**
@@ -74,7 +76,8 @@ public class Money implements Comparable {
 	 * (Again, remember converting the value of the other Money to this Currency)
 	 */
 	public Money sub(Money other) {
-		return new Money(amount, currency); //placeholder
+		int subtractedAmount = this.amount-currency.valueInThisCurrency(other.amount, other.currency);
+		return new Money(subtractedAmount, currency);
 	}
 	
 	/**
@@ -89,8 +92,7 @@ public class Money implements Comparable {
 	 * @return A new instance of the money class initialized with the new negated money amount.
 	 */
 	public Money negate() {
-		int negativeAmount = -amount;
-		return new Money(negativeAmount, this.currency);
+		return new Money(-amount, this.currency);
 	}
 	
 	/**
@@ -103,6 +105,7 @@ public class Money implements Comparable {
 	 * A positive integer if this Money is more valuiable than the other Money.
 	 */
 	public int compareTo(Object other) {
-		return 0; //placeholder
+		Money otherMoney = (Money) other;
+		return universalValue().compareTo(otherMoney.universalValue());
 	}
 }
