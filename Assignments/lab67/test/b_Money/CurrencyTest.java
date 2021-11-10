@@ -34,15 +34,15 @@ public class CurrencyTest {
 	@Test
 	public void testSetRate() {
 		SEK.setRate(0.7);
-		assertEquals(Double.valueOf(0.7), SEK.getRate());
+		assertEquals(Double.valueOf(0.7), SEK.getRate()); //Check positive value
 		DKK.setRate(-0.5);
-		assertEquals(Double.valueOf(-0.5), DKK.getRate());
+		assertEquals(Double.valueOf(-0.5), DKK.getRate()); //Check negative value
 		EUR.setRate(0.0);
-		assertEquals(Double.valueOf(0.0), EUR.getRate());
+		assertEquals(Double.valueOf(0.0), EUR.getRate()); //Check 0 value
 	}
 	
 	@Test
-	public void testGlobalValue() {
+	public void testGlobalValue() { //Check values for various currencies
 		assertEquals(Integer.valueOf(15), SEK.universalValue(1));
 		assertEquals(Integer.valueOf(200), DKK.universalValue(10));
 		assertEquals(Integer.valueOf(15000), EUR.universalValue(100));
